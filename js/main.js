@@ -1,10 +1,11 @@
 'use strict';
 
+var DATA_LENGTH = 25;
+
 var picturesWrapper = document.querySelector('.pictures');
 var commentFragment = document.createDocumentFragment();
 
 var dataArray = [];
-var commentsArray = [];
 var namesList = ['Стояна', 'Лежана', 'Вынька', 'Бздашек', 'Мыкола', 'Маразмус', 'Гиви', 'Вага', 'Вацлав'];
 var messagesList = [
   'Всё отлично!',
@@ -19,23 +20,20 @@ function getRandomInRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-for (var i = 0; i <= 24; i++) {
+for (var i = 0; i < DATA_LENGTH; i++) {
   dataArray.push({
     url: 'photos/' + (i + 1) + '.jpg',
     description: '',
-    likes: getRandomInRange(15, 200)
+    likes: getRandomInRange(15, 200),
+    comment: {
+      avatar: 'img/avatar-' + getRandomInRange(1, 6) + '.svg',
+      message: messagesList[getRandomInRange(0, messagesList.length)],
+      name: namesList[getRandomInRange(0, namesList.length)]
+    }
   });
 }
 
-for (var i = 0; i <= 24; i++) {
-  commentsArray.push({
-    avatar: 'img/avatar-' + getRandomInRange(1, 6) + '.svg',
-    message: messagesList[getRandomInRange(0, messagesList.length)],
-    name: namesList[getRandomInRange(0, namesList.length)],
-  });
-}
-
-for (var i = 0; i <= 24; i++) {
+for (i = 0; i < dataArray.length; i++) {
   var commentElement = document.createElement('a');
   commentElement.classList.add('picture');
   var commentAvatar = document.createElement('img');
