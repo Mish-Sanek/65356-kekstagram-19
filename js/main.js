@@ -20,39 +20,47 @@ function getRandomInRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-for (var i = 0; i < DATA_LENGTH; i++) {
-  dataArray.push({
-    url: 'photos/' + (i + 1) + '.jpg',
-    description: '',
-    likes: getRandomInRange(15, 200),
-    comment: {
-      avatar: 'img/avatar-' + getRandomInRange(1, 6) + '.svg',
-      message: messagesList[getRandomInRange(0, messagesList.length)],
-      name: namesList[getRandomInRange(0, namesList.length)]
-    }
-  });
+function generateData(dataLength) {
+  for (var i = 0; i < dataLength; i++) {
+    dataArray.push({
+      url: 'photos/' + (i + 1) + '.jpg',
+      description: '',
+      likes: getRandomInRange(15, 200),
+      comment: {
+        avatar: 'img/avatar-' + getRandomInRange(1, 6) + '.svg',
+        message: messagesList[getRandomInRange(0, messagesList.length)],
+        name: namesList[getRandomInRange(0, namesList.length)]
+      }
+    });
+  }
 }
 
-for (i = 0; i < dataArray.length; i++) {
-  var commentElement = document.createElement('a');
-  commentElement.classList.add('picture');
-  var commentAvatar = document.createElement('img');
-  commentAvatar.setAttribute('src', dataArray[i].url);
-  commentAvatar.setAttribute('class', 'picture__img');
-  var commentInfo = document.createElement('p');
-  commentInfo.classList.add('picture__info');
-  var commentsLikes = document.createElement('span');
-  commentsLikes.classList.add('picture__likes');
-  commentsLikes.textContent = dataArray[i].likes;
-  var commentsCount = document.createElement('span');
-  commentsCount.classList.add('picture__comments');
-  commentsCount.textContent = getRandomInRange(0, messagesList.length);
+generateData(DATA_LENGTH);
 
-  commentElement.appendChild(commentAvatar);
-  commentElement.appendChild(commentInfo);
-  commentInfo.appendChild(commentsLikes);
-  commentInfo.appendChild(commentsCount);
-  commentFragment.appendChild(commentElement);
+function generateElements(array) {
+  for (var i = 0; i < array.length; i++) {
+    var commentElement = document.createElement('a');
+    commentElement.classList.add('picture');
+    var commentAvatar = document.createElement('img');
+    commentAvatar.setAttribute('src', array[i].url);
+    commentAvatar.setAttribute('class', 'picture__img');
+    var commentInfo = document.createElement('p');
+    commentInfo.classList.add('picture__info');
+    var commentsLikes = document.createElement('span');
+    commentsLikes.classList.add('picture__likes');
+    commentsLikes.textContent = array[i].likes;
+    var commentsCount = document.createElement('span');
+    commentsCount.classList.add('picture__comments');
+    commentsCount.textContent = getRandomInRange(0, messagesList.length);
+
+    commentElement.appendChild(commentAvatar);
+    commentElement.appendChild(commentInfo);
+    commentInfo.appendChild(commentsLikes);
+    commentInfo.appendChild(commentsCount);
+    commentFragment.appendChild(commentElement);
+  }
 }
+
+generateElements(dataArray);
 
 picturesWrapper.appendChild(commentFragment);
