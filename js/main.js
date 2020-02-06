@@ -32,9 +32,9 @@ function generateComments(count) {
   return commentsArray;
 }
 
-function generateData(dataLength) {
+function generatePhotosData(count) {
   var dataArray = [];
-  for (var i = 0; i < dataLength; i++) {
+  for (var i = 0; i < count; i++) {
     dataArray.push({
       url: 'photos/' + (i + 1) + '.jpg',
       description: '',
@@ -62,24 +62,6 @@ function renderPhotos(array) {
   return photoFragment;
 }
 
-var photos = generateData(PHOTOS_COUNT);
+var photos = generatePhotosData(PHOTOS_COUNT);
 
 picturesWrapper.appendChild(renderPhotos(photos));
-
-/* // 2
-
-var bigPicture = document.querySelector('.big-picture');
-var bigPictureImg = bigPicture.querySelector('.big-picture__img img');
-var bigPictureComment = bigPicture.querySelector('.social__picture');
-var bigPictureLikes = bigPicture.querySelector('.likes-count');
-var bigPictureComments = bigPicture.querySelector('.comments-count');
-
-bigPicture.classList.remove('hidden');
-
-function fillingElement() {
-  bigPictureComment.src = bigPictureImg.src;
-  bigPictureLikes.textContent = dataArray[0].likes;
-  bigPictureComments.textContent = getRandomInRange(0, messagesList.length);
-}
-
-fillingElement(); */
