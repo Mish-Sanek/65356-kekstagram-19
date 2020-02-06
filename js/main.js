@@ -1,11 +1,11 @@
 'use strict';
 
-var DATA_LENGTH = 25;
+var PHOTOS_COUNT = 25;
+var COMMENTS_LENGTH = 13;
+var PICTURE_TEMPLATE = document.querySelector('#picture').content;
 
 var picturesWrapper = document.querySelector('.pictures');
-var commentFragment = document.createDocumentFragment();
 
-var dataArray = [];
 var namesList = ['Стояна', 'Лежана', 'Вынька', 'Бздашек', 'Мыкола', 'Маразмус', 'Гиви', 'Вага', 'Вацлав'];
 var messagesList = [
   'Всё отлично!',
@@ -20,47 +20,66 @@ function getRandomInRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function generateComments(count) {
+  var commentsArray = [];
+  for (var i = 0; i < count; i++) {
+    commentsArray.push({
+      avatar: 'img/avatar-' + getRandomInRange(1, 6) + '.svg',
+      message: messagesList[getRandomInRange(0, messagesList.length)],
+      name: namesList[getRandomInRange(0, namesList.length)]
+    });
+  }
+  return commentsArray;
+}
+
 function generateData(dataLength) {
+  var dataArray = [];
   for (var i = 0; i < dataLength; i++) {
     dataArray.push({
       url: 'photos/' + (i + 1) + '.jpg',
       description: '',
       likes: getRandomInRange(15, 200),
-      comment: {
-        avatar: 'img/avatar-' + getRandomInRange(1, 6) + '.svg',
-        message: messagesList[getRandomInRange(0, messagesList.length)],
-        name: namesList[getRandomInRange(0, namesList.length)]
-      }
+      comments: generateComments(getRandomInRange(0, COMMENTS_LENGTH))
     });
   }
+  return dataArray;
 }
 
-generateData(DATA_LENGTH);
+function renderPhotos(array) {
+  var photoFragment = document.createDocumentFragment();
 
-function generateElements(array) {
   for (var i = 0; i < array.length; i++) {
-    var commentElement = document.createElement('a');
-    commentElement.classList.add('picture');
-    var commentAvatar = document.createElement('img');
-    commentAvatar.setAttribute('src', array[i].url);
-    commentAvatar.setAttribute('class', 'picture__img');
-    var commentInfo = document.createElement('p');
-    commentInfo.classList.add('picture__info');
-    var commentsLikes = document.createElement('span');
-    commentsLikes.classList.add('picture__likes');
-    commentsLikes.textContent = array[i].likes;
-    var commentsCount = document.createElement('span');
-    commentsCount.classList.add('picture__comments');
-    commentsCount.textContent = getRandomInRange(0, messagesList.length);
-
-    commentElement.appendChild(commentAvatar);
-    commentElement.appendChild(commentInfo);
-    commentInfo.appendChild(commentsLikes);
-    commentInfo.appendChild(commentsCount);
-    commentFragment.appendChild(commentElement);
+    var photoNode = PICTURE_TEMPLATE.cloneNode(true);
+    var image = photoNode.querySelector('.picture__img');
+    image.setAttribute('src', array[i].url);
+    var commentsCount = photoNode.querySelector('.picture__comments');
+    commentsCount.textContent = array[i].comments.length;
+    var photoLikes = photoNode.querySelector('.picture__likes');
+    photoLikes.textContent = array[i].likes;
+    photoFragment.appendChild(photoNode);
   }
+
+  return photoFragment;
 }
 
-generateElements(dataArray);
+var photos = generateData(PHOTOS_COUNT);
 
-picturesWrapper.appendChild(commentFragment);
+picturesWrapper.appendChild(renderPhotos(photos));
+
+/* // 2
+
+var bigPicture = document.querySelector('.big-picture');
+var bigPictureImg = bigPicture.querySelector('.big-picture__img img');
+var bigPictureComment = bigPicture.querySelector('.social__picture');
+var bigPictureLikes = bigPicture.querySelector('.likes-count');
+var bigPictureComments = bigPicture.querySelector('.comments-count');
+
+bigPicture.classList.remove('hidden');
+
+function fillingElement() {
+  bigPictureComment.src = bigPictureImg.src;
+  bigPictureLikes.textContent = dataArray[0].likes;
+  bigPictureComments.textContent = getRandomInRange(0, messagesList.length);
+}
+
+fillingElement(); */
