@@ -25,7 +25,7 @@ function generateComments(count) {
   for (var i = 0; i < count; i++) {
     commentsArray.push({
       avatar: 'img/avatar-' + getRandomInRange(1, 6) + '.svg',
-      message: messagesList[getRandomInRange(0, messagesList.length)],
+      message: messagesList[getRandomInRange(0, messagesList.length - 1)],
       name: namesList[getRandomInRange(0, namesList.length)]
     });
   }
@@ -73,26 +73,26 @@ document.querySelector('.social__comment-count').classList.add('hidden');
 document.querySelector('.comments-loader').classList.add('hidden');
 document.body.classList.add('modal-open');
 
-function renderComment() {
+function generateComment() {
   bigPicture.querySelector('img').src = photos[0].url;
   bigPicture.querySelector('.likes-count').textContent = photos[0].likes;
   bigPicture.querySelector('.comments-count').textContent = photos[0].comments.length;
 
-  for (var i = 0; i < photos.length; i++) {
+  for (var i = 0; i < photos[0].comments.length; i++) {
     var socialComments = bigPicture.querySelector('.social__comments');
     var socialComment = document.createElement('li');
     socialComment.classList.add('social__comment');
     var socialPicture = document.createElement('img');
     socialPicture.classList.add('social__picture');
-    socialPicture.src = photos[i].comments[i].avatar;
-    socialPicture.alt = photos[i].comments[i].name;
+    socialPicture.src = photos[0].comments[i].avatar;
+    socialPicture.alt = photos[0].comments[i].name;
     var socialText = document.createElement('p');
     socialText.classList.add('social__text');
-    socialText.textContent = photos[i].comments[i].message;
+    socialText.textContent = photos[0].comments[i].message;
     socialComments.appendChild(socialComment);
     socialComment.appendChild(socialPicture);
     socialComment.appendChild(socialText);
   }
 }
 
-renderComment();
+generateComment();
