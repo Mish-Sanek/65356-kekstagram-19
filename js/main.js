@@ -102,4 +102,5 @@ function renderComment(index) {
   socialComments.appendChild(comments);
 }
 
-renderComment(0);
+var firstPhotoIndex = 0;
+renderComment(firstPhotoIndex);
